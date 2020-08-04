@@ -56,7 +56,8 @@ exports.signin = (req, res) => {
         const { _id, email, username, name, role} = user;
         return res.json({
             token,
-            user: { _id, email, username, name, role}
+            user: { _id, email, username, name, role},
+            message: 'signed in successfully'
         })
 
     })

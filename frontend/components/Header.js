@@ -1,6 +1,8 @@
 import Constants from '../constants/constants';
 import { APP_NAME } from './../config';
 import Link from 'next/link';
+import {signout, isAuth} from './../actions/auth';
+import Router from 'next/router';
 
 const Header = (props) => {
     return(
@@ -13,12 +15,23 @@ const Header = (props) => {
                     </Link>
                     <div className="spacer"></div>
                     <nav className="navlink-wrapper">
-                        <Link href="/signup" >
-                            <a className="navlink">Signup</a>
-                        </Link>
-                        <Link href="/signin" >
-                            <a className="navlink">Signin</a>
-                        </Link>
+                        {
+                            !isAuth() && (<React.Fragment>
+                                                <Link href="/signup" >
+                                                    <a className="navlink">Signup</a>
+                                                </Link>
+                                                <Link href="/signin" >
+                                                    <a className="navlink">Signin</a>
+                                                </Link>
+                                          </React.Fragment>
+                                          )
+                        }
+                       
+                        {isAuth() && (
+                            <Link href="/signin" >
+                                    <a className="navlink" onClick={() => signout(() => Router.replace(`/signin`))}>Signout</a>
+                            </Link>
+                        )} 
                     </nav>
                     <style jsx>
                         {`

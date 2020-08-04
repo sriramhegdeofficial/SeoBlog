@@ -1,9 +1,15 @@
 import { useState} from 'react';
 import Alert from '../Alert';
-import {signin} from './../../actions/auth';
+import {signin, authenticate, isAuth} from './../../actions/auth';
+import Router from 'next/router';
 
 
 const SigninComponent = () => {
+
+  
+
+  
+  
 
   const [values, setValues] = useState({
     email: 'sriramhegde@gmail.com',
@@ -13,6 +19,8 @@ const SigninComponent = () => {
     message: '',
     showForm: true
 });
+
+
 
 const {email, password, error, isLoading, message, showForm} = values;
 
@@ -26,14 +34,14 @@ const {email, password, error, isLoading, message, showForm} = values;
                   setValues({...values, error: data.error, isLoading: false})
                   console.log(values)
                 }else {
-                  setValues({...values,
-                     email: '', 
-                     password: '', 
-                     isLoading: false, 
-                     error: '',
-                     message: data.message,
-                    showForm: false
-                })
+                   authenticate(data, () => {
+                      if(isAuth() && isAuth().role === 1) {
+                        Router.push(`/admin`);
+                      } else if(isAuth() && isAuth().role === 0) {
+                        Router.push(`/user`);
+                      }
+                   })
+                   
                 
                 }
             })

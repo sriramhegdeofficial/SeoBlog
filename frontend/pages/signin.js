@@ -1,18 +1,28 @@
 import Layout from './../components/Layout';
 import SigninComponent from './../components/auth/SigninComponent';
 import Header from './../components/Header';
-
+import Router from 'next/router';
+import { isAuth} from './../actions/auth';
+import {useEffect} from 'react';
 
 const Signin = () => {
+
+    useEffect(() => {
+         isAuth() && Router.replace('/');
+    })
+
+ 
+
+      
     return (
         <React.Fragment>
-            <Layout>
+            { !isAuth() && (<Layout>
                     <Header />
                     <div className="wrapper">
                         <h2 className="signin-title">Signin</h2>
                         <SigninComponent />
                     </div>
-            </Layout>
+            </Layout>)}
                 <style jsx>
                     {
                         `
@@ -35,6 +45,7 @@ const Signin = () => {
                         `
                     }
                 </style>
+
         </React.Fragment>
     )
 }
